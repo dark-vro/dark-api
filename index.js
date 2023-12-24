@@ -191,7 +191,7 @@ app.get('/other', isAuthenticated, async(req, res) => {
 
 app.use('/api', apirouter)
 */
-app.use('/auth', userrouter)
+app.use('/users', userrouter)
 
 app.use(function (req, res, next) {
     res.status(404).json({
