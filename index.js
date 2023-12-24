@@ -14,7 +14,6 @@ var express = require('express'),
     cors = require ("cors"),
     schedule = require('node-schedule');
     
-const { fetchJson } = require("./lib/fetcher.js");
 const PORT = process.env.PORT || 8080 || 5000 || 3000
 var app = express()
 var { color } = require('./lib/color.js')
@@ -24,6 +23,7 @@ const { connectMongoDb } = require('./MongoDB/mongodb');
 const { resetAllLimit, getApikey } = require('./MongoDB/function');
 var apirouter = require('./routes/api'),
     mainrouter = require('./routes/main'),
+    shefin = require('./routes/shefin'),
     userrouter = require('./routes/users');
 connectMongoDb();
 app.set('trust proxy', 1);
@@ -72,30 +72,8 @@ app.use(function(req, res, next) {
   res.locals.user = req.user || null;
   next();
 })
-/*
-app.get('/', (req, res) => {
-    res.render('home', {
-    layout: 'home'
-  });
-})
-*/
-app.get('/', async (req, res) => {
-   var hits = await fetchJson('https://api.countapi.xyz/hit/shefin.xyz/visitor')
-   res.json({
-   status: true,
-   creator: "Shefin!",
-   visitor: hits.value,
-   })
-  }
-)
-app.get('/docs', isAuthenticated, async(req, res) => {
-   res.json({
-   status: true,
-   creator: "Shefin!",
-   announcement : "The site is not Released!"
-   })
-  }
-)
+
+app.use('/', shefin)
 
 /*
 app.get('/docs', isAuthenticated, async(req, res) => {
