@@ -21,3 +21,5 @@ router.get('/docs', async(req, res) => {
    })
   }
 )
+
+module.exports = router
