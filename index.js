@@ -77,6 +77,7 @@ app.get('/', (req, res) => {
     layout: 'home'
   });
 })
+/*
 app.get('/docs', isAuthenticated, async(req, res) => {
   let getkey = await getApikey(req.user.id)
   let { apikey, username, limit} = getkey
@@ -169,6 +170,7 @@ app.get('/other', isAuthenticated, async(req, res) => {
 })
 
 app.use('/api', apirouter)
+*/
 app.use('/users', userrouter)
 
 app.use(function (req, res, next) {
