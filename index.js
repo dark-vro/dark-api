@@ -14,6 +14,7 @@ var express = require('express'),
     cors = require ("cors"),
     schedule = require('node-schedule');
     
+const { fetchJson } = require("./lib/fetcher.js");
 const PORT = process.env.PORT || 8080 || 5000 || 3000
 var app = express()
 var { color } = require('./lib/color.js')
@@ -71,12 +72,31 @@ app.use(function(req, res, next) {
   res.locals.user = req.user || null;
   next();
 })
-
+/*
 app.get('/', (req, res) => {
     res.render('home', {
     layout: 'home'
   });
 })
+*/
+app.get('/', async (req, res) => {
+   var hits = await fetchJson('https://api.countapi.xyz/hit/shefin.xyz/visitor')
+   res.json({
+   status: true,
+   creator: "Shefin!",
+   visitor: hits.value,
+   })
+  }
+)
+app.get('/docs', isAuthenticated, async(req, res) => {
+   res.json({
+   status: true,
+   creator: "Shefin!",
+   announcement : "The site is not Released!"
+   })
+  }
+)
+
 /*
 app.get('/docs', isAuthenticated, async(req, res) => {
   let getkey = await getApikey(req.user.id)
@@ -171,7 +191,7 @@ app.get('/other', isAuthenticated, async(req, res) => {
 
 app.use('/api', apirouter)
 */
-app.use('/users', userrouter)
+app.use('/auth', userrouter)
 
 app.use(function (req, res, next) {
     res.status(404).json({
